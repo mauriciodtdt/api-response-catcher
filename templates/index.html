@@ -15,6 +15,15 @@
 </head>
 <body>
 <div id=wrapper>
-    Hello this is my content {{content}}.
+    <script>
+        var eventSource = new EventSource("/listen")
+    
+        eventSource.onmessage = function(e) {
+          // console.log(e.data.color)
+          data = JSON.parse(e.data)
+          document.querySelector("#counter").innerText = data.name
+        }
+    
+      </script>
 </div>
 </body></html>
