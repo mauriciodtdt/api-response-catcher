@@ -1,13 +1,10 @@
+<!doctype html>
 <html>
 <head>
 <style>
 #wrapper {
     width:800px;
     overflow-x:scroll;
-}
-#content {
-    width:2000px;
-    border:2px solid red;
 }
 @media print { /* This overwrites the css when printing */
     #wrapper {
@@ -17,28 +14,7 @@
 </style>
 </head>
 <body>
-<a href="#" onclick="printGo()">Print</a><br>
-<a href="#" onclick="printDone()">I'm done printing!</a>
 <div id=wrapper>
-    <div id=content>
-        Hello this is my content.
-    </div>
+    Hello this is my content {{content}}.
 </div>
-<script>
-var wrapper = document.getElementById('wrapper');
-var content = document.getElementById('content');
-var scrollPos;
-function printGo(){
-    scrollPos = wrapper.scrollLeft; // Save scroll position
-    wrapper.scrollLeft = 0;
-    wrapper.style.overflowX = 'hidden'; // Optional since css does it
-    content.style.marginLeft = -scrollPos+'px'; // Put it as a negative margin of child instead
-    window.print();
-}
-function printDone(){
-    wrapper.scrollLeft = scrollPos; // Restore scroll position
-    wrapper.style.overflowX = 'scroll'; // Optional since css does it
-    content.style.marginLeft = '';
-}
-</script>
 </body></html>
