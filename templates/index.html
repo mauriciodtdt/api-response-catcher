@@ -13,17 +13,42 @@
 }
 </style>
 </head>
+<h1>Hello World</h1>
 <body>
-<div id=wrapper>
+    <div class="page-header">
+        <h1>Chat</h1>
+      </div>
+    <pre id="chat-text"></pre>
     <script>
         var eventSource = new EventSource("/listen")
-    
-        eventSource.onmessage = function(e) {
-          // console.log(e.data.color)
-          data = JSON.parse(e.data)
-          document.querySelector("#counter").innerText = data.name
-        }
-    
-      </script>
-</div>
+        eventSource.addEventListener("online", function(message) {
+        data = JSON.parse(message.data)
+        $("#chat-text").append("<div class='panel panel-default'><div class='panel-heading'>" + $('<span/>').text(data.handle).html() + "</div><div class='panel-body'>" + $('<span/>').text(JSON.stringify(data.callback_msg, undefined, 2)).html() + "</div></div>");
+        $("#chat-text").stop().animate({scrollTop: $('#chat-text')[0].scrollHeight}, 800);
+        }, true)
+    </script>
+    <script type="text/javascript" src="static/js/jquery-2.0.3.min.js"></script>
 </body></html>
+
+
+<!-- <!DOCTYPE html>
+<html>
+<body>
+
+<h1>Getting server updates</h1>
+<div id="result"></div>
+
+<script>
+if(typeof(EventSource) !== "undefined") {
+  var source = new EventSource("/listen");
+  source.onmessage = function(event) {
+    console.log
+    document.getElementById("result").innerHTML += event.data + "<br>";
+  };
+} else {
+  document.getElementById("result").innerHTML = "Sorry, your browser does not support server-sent events...";
+}
+</script>
+
+</body>
+</html> -->
