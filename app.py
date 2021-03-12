@@ -67,6 +67,7 @@ from flask import Flask, Response, render_template, stream_with_context, redirec
 from gevent.pywsgi import WSGIServer
 import json
 import time
+from datetime import datetime
 
 app = Flask(__name__)
 message_list = []
@@ -83,7 +84,7 @@ def listen():
   def respond_to_client():
     global counter
     if message_list:
-        _data = json.dumps({"color":'red', "callback_msg":message_list.pop()})
+        _data = json.dumps({"timestamp": datetime.utcnow().strftime("%H:%M:%S"), "callback_msg":message_list.pop()})
         return f"id: 1\ndata: {_data}\nevent: online\n\n"
   return Response(respond_to_client(), mimetype='text/event-stream')
 
