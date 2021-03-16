@@ -25,11 +25,9 @@ def listen():
   def respond_to_client():
     request_url = request.url
     print(f'\nRequesting URL: {request_url}')
-    # if user in message_by_user.keys():
-    #     if message_list:
-    #         # message = message_by_user.get(user)
-    _data = json.dumps({"timestamp": datetime.utcnow().strftime("%b %d %Y - %H:%M:%S"), "callback_msg":message_list.pop()})
-    return f"id: 1\ndata: {_data}\nevent: online\n\n"
+    if message_list:
+      _data = json.dumps({"timestamp": datetime.utcnow().strftime("%b %d %Y - %H:%M:%S"), "callback_msg":message_list.pop()})
+      return f"id: 1\ndata: {_data}\nevent: online\n\n"
   return Response(respond_to_client(), mimetype='text/event-stream')
 
 @app.route('/<user>/receive', methods=['POST'])
@@ -45,5 +43,5 @@ def receive(user):
 ##############################
 if __name__ == "__main__":
 #   app.run(port=5000, debug=True)
-  http_server = WSGIServer(("localhost", 5000), app)
+  http_server = WSGIServer(("localhost", 5001), app)
   http_server.serve_forever()
