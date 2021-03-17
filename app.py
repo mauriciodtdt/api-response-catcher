@@ -17,14 +17,14 @@ counter = 100
 
 @app.route('/<user>')
 def user(user):
-    return render_template("index.html", content='/' + str(user) + '/listen')
+    return render_template("index.html", content=str(user))
 
 ############################
-@app.route("/listen")
-def listen():
+@app.route("/<user>/listen")
+def listen(user):
   def respond_to_client():
-    request_url = request.url
-    print(f'\nRequesting URL: {request_url}')
+    global message_list
+    message_list = message_by_user.get(user) if user in message_by_user.keys() else []
     if message_list:
       _data = json.dumps({"timestamp": datetime.utcnow().strftime("%b %d %Y - %H:%M:%S"), "callback_msg":message_list.pop()})
       return f"id: 1\ndata: {_data}\nevent: online\n\n"

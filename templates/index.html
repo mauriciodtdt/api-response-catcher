@@ -21,11 +21,11 @@
 <body>
     <div class="page-header">
         <h1 class="center">Hi {{content}}</h1>
+        <h1 class="center">Use the URL:  {{go_to}}/{{content}}/receive on your callbacks</h1>
       </div>
     <pre id="chat-text"></pre>
     <script>
-        var eventSource = new EventSource('/listen')
-        eventSource.content = content
+        var eventSource = new EventSource('/{{content}}/listen')
         eventSource.addEventListener("online", function(message) {
         data = JSON.parse(message.data)
         $("#chat-text").append('<div class="mt">' + data.timestamp + '</div>');
