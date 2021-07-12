@@ -13,7 +13,7 @@ counter = 100
 
 @app.route("/")
 def index():
-    return f"Please append your name to the URL. e.g: {request.url_rule}/<name>"
+    return f"Please append your name to the URL"
 
 
 @app.route('/<user>')
