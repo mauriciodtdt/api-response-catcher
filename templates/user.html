@@ -21,11 +21,12 @@
 <body>
     <div class="page-header">
         <h1 class="center">Hi {{content}}</h1>
-        <h1 class="center">Use the URL:  {{ content }}/receive on your async request as a callback server</h1>
-      </div>
+        <h1 class="center">Use the the following URL as the callback server on your request:</h1>>
+        <h2 class="center">{{ url_for(request.endpoint, **request.view_args) }}/receive</h2>
+    </div>
     <pre id="chat-text"></pre>
     <script>
-        var eventSource = new EventSource('/{{content}}/listen')
+        var eventSource = new EventSource('/{{ request.path }}/listen')
         eventSource.addEventListener("online", function(message) {
         data = JSON.parse(message.data)
         $("#chat-text").append('<div class="mt">' + data.timestamp + '</div>');

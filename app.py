@@ -8,7 +8,6 @@ from datetime import datetime
 app = Flask(__name__)
 message_by_user = {}
 message_list = []
-counter = 100
 
 
 @app.route("/")
