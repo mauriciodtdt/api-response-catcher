@@ -26,7 +26,7 @@
     </div>
     <pre id="chat-text"></pre>
     <script>
-        var eventSource = new EventSource('/{{ request.path }}/listen')
+        var eventSource = new EventSource('/{{content}}/listen')
         eventSource.addEventListener("online", function(message) {
         data = JSON.parse(message.data)
         $("#chat-text").append('<div class="mt">' + data.timestamp + '</div>');
