@@ -17,11 +17,27 @@ def index():
 
 @app.route('/<user>')
 def user(user):
+    """This is the user interface where all the async messages will be displayed."""
     return render_template("user.html", content=str(user))
+
+
+@app.route('/<user>/receive', methods=['POST'])
+def receive(user):
+    """This is the route who gathers the async responses from the external application server and
+    store them in a list."""
+    _data = request.json
+    message_list: list = message_by_user.get(user) if user in message_by_user.keys() else []
+    message_list.append(_data)
+    message_by_user.update({user: message_list})
+    print(user)
+    print(f'\nTotal messages: {len(message_list)} for user: {user}')
+    return _data
 
 
 @app.route("/<user>/listen")
 def listen(user):
+    """This listener triggers an Event on the front-end and display the messages gathered in
+    the callback server message list."""
     def respond_to_client():
         global message_list
         message_list = message_by_user.get(user) if user in message_by_user.keys() else []
@@ -32,18 +48,6 @@ def listen(user):
     return Response(respond_to_client(), mimetype='text/event-stream')
 
 
-@app.route('/<user>/receive', methods=['POST'])
-def receive(user):
-    _data = request.json
-    message_list: list = message_by_user.get(user) if user in message_by_user.keys() else []
-    message_list.append(_data)
-    message_by_user.update({user: message_list})
-    print(user)
-    print(f'\nTotal messages: {len(message_list)} for user: {user}')
-    return _data
-
-
-##############################
 if __name__ == "__main__":
   http_server = WSGIServer(("localhost", 5001), app)
   http_server.serve_forever()
