@@ -1,5 +1,5 @@
 # api-response-catcher
-This http web server has been built on Python using Flash as an easy way to get and display the JSON responses from a callback REST API.
+This http web server has been built on Python using Flask as an easy way to get and display the JSON responses from a callback REST API.
 
 Live Demo
 Instructions:
